@@ -54,7 +54,21 @@ class TodoServiceTest {
     }
 
     @Test
-    void findByTodo() {
+    @DisplayName("일정 상세 정보 보기")
+    void findByTodoTest() {
+        // given: 테스트용 데이터 생성
+        Todo savedTodo = todoRepository.save(new Todo("Meeting", "Discuss project", LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.MIDNIGHT)));
+        Long todoId = savedTodo.getId(); // 저장된 Todo의 ID 가져오기
+
+        // when: 해당 ID로 Todo 찾기
+        Todo foundTodo = todoService.findByTodo(todoId);
+
+        // then: Todo가 올바르게 조회되었는지 검증
+        assertThat(foundTodo).isNotNull(); // 조회된 Todo가 null이 아닌지 확인
+        assertThat(foundTodo.getId()).isEqualTo(todoId); // ID가 일치하는지 확인
+        assertThat(foundTodo.getTitle()).isEqualTo("Meeting"); // 제목이 일치하는지 확인
+        assertThat(foundTodo.getDescription()).isEqualTo("Discuss project"); // 설명이 일치하는지 확인
+        assertThat(foundTodo.getDueTime()).isEqualTo(LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.MIDNIGHT)); // 마감 날짜가 일치하는지 확인
     }
 
     @Test

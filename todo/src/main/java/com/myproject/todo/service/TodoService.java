@@ -23,7 +23,6 @@ public class TodoService {
         return todoRepository.save(todo);
     }
 
-    // 왜 Optional 을 사용하지?
     public Todo findByTodo(Long id) {
         return todoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("일정이 존재하지 않습니다."));
